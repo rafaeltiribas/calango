@@ -1,20 +1,19 @@
 <script setup>
 import { ref } from 'vue'
+import Input from "./Input.vue";
 
 defineProps({
   msg: String,
 })
 
-const count = ref(0)
+const url = ref("")
 </script>
 
 <template>
   <h1>{{ msg }}</h1>
-  <p class="read-the-docs">Insert the URL that you want to be shortened</p>
+  <p class="read-the-docs">Your favorite URL shorterner!</p>
 
-  <div class="card">
-
-  </div>
+  <Input />
 
   <p>
     Check out
