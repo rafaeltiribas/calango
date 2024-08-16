@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -42,6 +43,8 @@ func main() {
 	collection := client.Database("calango").Collection("url")
 
 	r := gin.Default()
+
+	r.Use(cors.Default())
 
 	r.POST("/calango", func(c *gin.Context) {
 		longUrl := c.PostForm("url")
