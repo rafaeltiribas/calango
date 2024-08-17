@@ -23,3 +23,15 @@ func get_url(ctx context.Context, c *gin.Context, collection *mongo.Collection, 
 
 	c.Redirect(http.StatusMovedPermanently, result.LongUrl)
 }
+
+func consult_url(ctx context.Context, collection *mongo.Collection, shortUrl string) bool {
+	var result struct {
+		LongUrl string `bson:"longUrl"`
+	}
+
+	err := collection.FindOne(ctx, bson.M{"_id": shortUrl}).Decode(&result)
+	if err != nil {
+		return false
+	}
+	return true
+}

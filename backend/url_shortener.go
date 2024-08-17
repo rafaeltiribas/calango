@@ -18,13 +18,16 @@ func urlShortener(longUrl string, collection *mongo.Collection, ctx context.Cont
 
 	shorturl := encodedStr[:5]
 
-	_, err := collection.InsertOne(ctx, bson.M{
-		"_id":     shorturl,
-		"longUrl": longUrl,
-	})
-	if err != nil {
-		log.Fatal(err)
-	}
+	repeated_url := consult_url(ctx, collection, shorturl)
 
+	if !repeated_url {
+		_, err := collection.InsertOne(ctx, bson.M{
+			"_id":     shorturl,
+			"longUrl": longUrl,
+		})
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 	return shorturl
 }
