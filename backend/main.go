@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
@@ -65,18 +64,7 @@ func main() {
 		reqCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 
-		var result struct {
-			LongUrl string `bson:"longUrl"`
-		}
-		err := collection.FindOne(reqCtx, bson.M{"_id": shortUrl}).Decode(&result)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"message": err.Error(),
-			})
-			return
-		}
-
-		c.Redirect(http.StatusMovedPermanently, result.LongUrl)
+		get_url(reqCtx, c, collection, shortUrl)
 	})
 
 	r.Run()
