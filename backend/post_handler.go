@@ -10,7 +10,6 @@ import (
 )
 
 func urlShortener(longUrl string, collection *mongo.Collection, ctx context.Context) string {
-
 	urlencoder := sha256.New()
 	urlencoder.Write([]byte(longUrl))
 	encodedurl := urlencoder.Sum(nil)
@@ -18,9 +17,9 @@ func urlShortener(longUrl string, collection *mongo.Collection, ctx context.Cont
 
 	shorturl := encodedStr[:5]
 
-	repeated_url := consult_url(ctx, collection, shorturl)
+	repeatedUrl := isUrlRepeated(ctx, collection, shorturl)
 
-	if !repeated_url {
+	if !repeatedUrl {
 		_, err := collection.InsertOne(ctx, bson.M{
 			"_id":     shorturl,
 			"longUrl": longUrl,

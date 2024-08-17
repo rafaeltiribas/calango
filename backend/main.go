@@ -9,6 +9,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
 	"net/http"
+	"net/url"
+	"strings"
 	"time"
 )
 
@@ -32,6 +34,19 @@ func connectToMongoDB() (*mongo.Client, context.Context, error) {
 	return client, ctx, nil
 }
 
+func isValidUrl(str string) bool {
+	u, err := url.ParseRequestURI(str)
+	if err != nil {
+		return false
+	}
+
+	if !strings.HasPrefix(u.Scheme, "http") {
+		return false
+	}
+
+	return true
+}
+
 func main() {
 	client, ctx, err := connectToMongoDB()
 	if err != nil {
@@ -47,6 +62,11 @@ func main() {
 
 	r.POST("/calango", func(c *gin.Context) {
 		longUrl := c.PostForm("url")
+
+		if !isValidUrl(longUrl) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid URL"})
+			return
+		}
 
 		reqCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
@@ -64,7 +84,7 @@ func main() {
 		reqCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 
-		get_url(reqCtx, c, collection, shortUrl)
+		retrieveLongUrl(reqCtx, c, collection, shortUrl)
 	})
 
 	r.Run()

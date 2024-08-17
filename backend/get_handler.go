@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func get_url(ctx context.Context, c *gin.Context, collection *mongo.Collection, shortUrl string) {
+func retrieveLongUrl(ctx context.Context, c *gin.Context, collection *mongo.Collection, shortUrl string) {
 	var result struct {
 		LongUrl string `bson:"longUrl"`
 	}
@@ -24,7 +24,7 @@ func get_url(ctx context.Context, c *gin.Context, collection *mongo.Collection, 
 	c.Redirect(http.StatusMovedPermanently, result.LongUrl)
 }
 
-func consult_url(ctx context.Context, collection *mongo.Collection, shortUrl string) bool {
+func isUrlRepeated(ctx context.Context, collection *mongo.Collection, shortUrl string) bool {
 	var result struct {
 		LongUrl string `bson:"longUrl"`
 	}
