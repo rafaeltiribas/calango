@@ -17,7 +17,7 @@
 
 ## Demo
 
-I WILL ADD A DEMO VIDEO HERE IN THE FUTURE...
+![](.\frontend\calango\src\assets\calango-demo.gif)
 
 ## Getting Started
 
