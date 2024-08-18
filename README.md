@@ -17,7 +17,7 @@
 
 ## Demo
 
-![](.\frontend\calango\src\assets\calango-demo.gif)
+![](https://github.com/rafaeltiribas/calango/blob/main/frontend/calango/src/assets/calango-demo.gif)
 
 ## Getting Started
 
